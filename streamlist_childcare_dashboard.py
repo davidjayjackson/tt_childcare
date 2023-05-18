@@ -6,7 +6,7 @@ import streamlit as st
 def load_data():
     childcare = pd.read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-05-09/childcare_costs.csv")
 
-    emp_df = childcare.filter(items=['state_name','county_fips_code', 'study_year'] + [col for col in childcare.columns if 'emp' in col])
+    emp_df = childcare.filter(items=['county_fips_code', 'study_year'] + [col for col in childcare.columns if 'emp' in col])
 
     counties = pd.read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-05-09/counties.csv")
 
@@ -15,7 +15,7 @@ def load_data():
 
     emp_rate_df = (childcare
                    .loc[:, ['state_name', 'study_year', 'emp_m', 'memp_m', 'emp_n', 'emp_sales', 'emp_service', 'femp_m']]
-                   .groupby('study_year')
+                   .groupby('state_name','study_year')
                    .mean()
                    .reset_index()
                   )
